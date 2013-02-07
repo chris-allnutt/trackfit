@@ -1,7 +1,4 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  email_address: MyString
-
-two:
-  email_address: MyString
+  email_address: batman@mailtrust.com
