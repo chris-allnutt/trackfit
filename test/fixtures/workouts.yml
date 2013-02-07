@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  worked_out_on: 2013-02-07
+
+two:
+  user_id: 1
+  worked_out_on: 2013-02-07
