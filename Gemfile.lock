@@ -91,6 +91,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    foreman (0.61.0)
+      thor (>= 0.13.6)
     hike (1.2.1)
     i18n (0.6.1)
     jbuilder (1.0.2)
@@ -147,6 +149,7 @@ DEPENDENCIES
   activerecord-deprecated_finders!
   arel!
   coffee-rails!
+  foreman
   jbuilder (~> 1.0.1)
   jquery-rails
   pg
