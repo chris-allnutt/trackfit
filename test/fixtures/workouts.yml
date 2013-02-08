@@ -2,8 +2,8 @@
 
 one:
   user_id: 1
-  worked_out_on: 2013-02-06
+  worked_out_on: 2013-02-04
 
 two:
   user_id: 1
-  worked_out_on: 2013-02-07
+  worked_out_on: 2013-02-05
