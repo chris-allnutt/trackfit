@@ -33,6 +33,7 @@ class WorkoutControllerTest < ActionController::TestCase
   end
 
   test "sets warning when workout has already been tracked for the provided day" do
+    # need to figure out how to mock/stub models for this
     track_day = Date.today
     users(:batman).workouts.create(:worked_out_on => track_day)
 
@@ -45,5 +46,34 @@ class WorkoutControllerTest < ActionController::TestCase
 
     assert flash[:alert] == "You have already tracked your workout for #{track_day.to_formatted_s(:rails_default)}", "Didn't set flash alert for duplicate workout"
     assert_redirected_to "/" #this should be its own assertion with a mock for workout save
+  end
+
+  test "redirects to / on error" do
+    # need to figure out how to mock/stub models for this
+    track_day = Date.today
+    users(:batman).workouts.create(:worked_out_on => track_day)
+
+    params = {
+      :email_address => users(:batman).email_address,
+      :date => track_day
+    }
+
+    post(:track, params)
+
+    assert_redirected_to "/", "Did not send user to root: \"/\" after error"
+  end
+
+  test "redirects to /review/:email_address on success" do
+    # need to figure out how to mock/stub models for this
+    track_day = Date.today.to_s(:db)
+
+    params = {
+      :email_address => users(:batman).email_address,
+      :date => track_day
+    }
+
+    post(:track, params)
+
+    assert_redirected_to "/review/#{params[:email_address]}", "Did not send user to review: \"/review/:email_address\" after success"
   end
 end
