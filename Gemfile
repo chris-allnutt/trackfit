@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'foreman', :group => :development
+gem 'foreman', :group => [:development, :production]
 
 gem 'rails',     github: 'rails/rails'
 gem 'arel',      github: 'rails/arel'
