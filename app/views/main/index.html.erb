@@ -1,1 +1,85 @@
-Hello World
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Racker Tracker ++</title>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src=" http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+    <script src=" http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
+    <%= stylesheet_link_tag "application" %>
+  </head>
+  <body>
+  <div id="exercise" class="row">
+    <h1>I <abbr title="20+ minutes of increased heartrate">exercised</abbr></h1>
+    <div class="btn-group" data-toggle="buttons-radio">
+      <% @workout_days.each do |day| %>
+        <button class="btn btn-large workout-date" data-date="<%=day[:date] %>"><%=day[:name] %></button>            
+      <% end %>
+    </div>
+  </div>
+  <form id="input" class="container" action="/track" method="post">
+    <div class="row">
+      <% if flash[:notice] %>
+      <div class="alert alert-block">
+        <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+        <strong>Error!</strong> <%= flash[:notice] %>
+      </div>
+      <% end %>
+      <% if flash[:error] %>
+        <div class="alert alert-error">
+          <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+          <strong>Error!</strong> <%= flash[:error] %>
+        </div>
+      <% end %>
+      <fieldset id="login" class="btn btn-inverse">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+        <input id="workout_date" name="workout_date" type="hidden">
+        <input 
+          id="email" 
+          type="text" 
+          name="email_address" 
+          placeholder="you@mailtrust.com"
+          <% if !@email_address.blank? %>
+            value="<%= @email_address %>"
+          <% end %>
+        >
+        <button id="submitButton" class="btn btn-info btn-large">Submit!</button>
+        <div class="note">In just 20 minutes a day, Racksburgers can put a little motion into our otherwise sendentary profession.</div>
+      </fieldset>
+    </div>
+  </form>      
+  <div class="row">
+    <a id="js_competition_details_link" href="#" >Competition details</a>
+    <div id="details">
+      Grand prize: a $50 check card drawn randomly each month at the company lunch from the pool of submitted names. Participation neccessary. Void where null == true.
+    </div>
+  </div>
+
+  <script>
+    $('#js_competition_details_link').click(function (e) {
+      $('#details').slideToggle();
+      e.preventDefault();
+    });
+
+    $('[title]').tooltip({delay:500});
+
+    $('button.workout-date').click(function (e) {
+      e.preventDefault();
+    });
+
+    // make post object
+    $('#submitButton').click(function() {
+      var selected_dates = [];
+      
+      var workout_buttons = $('button.workout-date.active')
+      for(var x = 0; x < workout_buttons.length; x++) {
+        selected_dates.push($(workout_buttons[x]).data('date'));
+      }
+      
+      $('#workout_date').val(selected_dates.join());
+      
+      return true;
+    });
+  </script>
+  </body>
+</html>
