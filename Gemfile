@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 1.0.1'
 
 # Use unicorn as the app server
 gem 'unicorn'
-
+gem 'rack-cache'
 # Deploy with Capistrano
 # gem 'capistrano', group: :development
 
