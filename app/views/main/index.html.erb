@@ -22,13 +22,13 @@
       <% if flash[:notice] %>
       <div class="alert alert-block">
         <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
-        <strong>Error!</strong> <%= flash[:notice] %>
+        <strong>Success</strong> <%= flash[:notice] %>
       </div>
       <% end %>
       <% if flash[:error] %>
         <div class="alert alert-error">
           <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
-          <strong>SUCCESS!!</strong> <%= flash[:error] %>
+          <strong>Error</strong> <%= flash[:error] %>
         </div>
       <% end %>
       <fieldset id="login" class="btn btn-inverse">
