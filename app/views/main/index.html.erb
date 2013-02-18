@@ -70,14 +70,14 @@
     // make post object
     $('#submitButton').click(function() {
       var selected_dates = [];
-      
+
       var workout_buttons = $('button.workout-date.active')
       for(var x = 0; x < workout_buttons.length; x++) {
         selected_dates.push($(workout_buttons[x]).data('date'));
       }
-      
+
       $('#workout_date').val(selected_dates.join());
-      
+
       return true;
     });
   </script>
