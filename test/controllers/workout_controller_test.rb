@@ -1,12 +1,16 @@
 require 'test_helper'
 
 class WorkoutControllerTest < ActionController::TestCase
+
+  def setup
+    @track_day = Date.today
+  end
+
   test "creates workout entry for existing user" do
-    track_day = Date.today.to_s(:db)
 
     params = {
       :email_address => users(:batman).email_address,
-      :workout_date => track_day
+      :workout_date => @track_day
     }
 
     post(:track, params)
@@ -18,11 +22,10 @@ class WorkoutControllerTest < ActionController::TestCase
   end
 
   test "creates workout for a user that does not exist" do
-    track_day = Date.today.to_s(:db)
 
     params = {
       :email_address => "robin@mailtrust.com", #this cannot be a name in the fixtures
-      :workout_date => track_day
+      :workout_date => @track_day
     }
 
     post(:track, params)
@@ -34,29 +37,12 @@ class WorkoutControllerTest < ActionController::TestCase
     assert_not_nil workout, "Did not create workout for new user"
   end
 
-  test "sets error when workout has already been tracked for the provided day" do
-    # need to figure out how to mock/stub models for this
-    track_day = Date.today
-    users(:batman).workouts.create(:worked_out_on => track_day)
-
-    params = {
-      :email_address => "batman@mailtrust.com",
-      :workout_date => track_day.to_s(:db)
-    }
-
-    post(:track, params)
-
-    assert flash[:error] == "You have already tracked your workout for #{track_day.to_formatted_s(:rails_default)}", "Didn't set flash alert for duplicate workout"
-    assert_redirected_to "/" #this should be its own assertion with a mock for workout save
-  end
-  
   test "sets error when email address is invalid" do
     # need to figure out how to mock/stub models for this
-    track_day = Date.today
 
     params = {
       :email_address => "batman@mailtrust",
-      :workout_date => track_day.to_s(:db)
+      :workout_date => @track_day.to_s(:db)
     }
 
     post(:track, params)
@@ -67,12 +53,12 @@ class WorkoutControllerTest < ActionController::TestCase
 
   test "redirects to / on error" do
     # need to figure out how to mock/stub models for this
-    track_day = Date.today
-    users(:batman).workouts.create(:worked_out_on => track_day)
+
+    users(:batman).workouts.create(:worked_out_on => @track_day)
 
     params = {
       :email_address => users(:batman).email_address,
-      :workout_date => track_day
+      :workout_date => @track_day.to_s(:db)
     }
 
     post(:track, params)
@@ -82,11 +68,10 @@ class WorkoutControllerTest < ActionController::TestCase
 
   test "redirects to /review/:email_address on success" do
     # need to figure out how to mock/stub models for this
-    track_day = Date.today.to_s(:db)
 
     params = {
       :email_address => users(:batman).email_address,
-      :workout_date => track_day
+      :workout_date => @track_day.to_s(:db)
     }
 
     post(:track, params)
@@ -94,4 +79,37 @@ class WorkoutControllerTest < ActionController::TestCase
     assert_redirected_to "/"
     # assert_redirected_to "/review/#{params[:email_address]}", "Did not send user to review: \"/review/:email_address\" after success"
   end
+
+  test "saves using relative dates" do
+
+    workout_count = users(:batman).workouts.count
+
+    params = {
+      :email_address => users(:batman).email_address,
+      :workout_date => '-1'
+    }
+
+    post(:track, params)
+
+    new_workout_count = users(:batman).workouts.count
+
+    assert new_workout_count > workout_count, "New workout not saved, expected #{workout_count+1} only found #{new_workout_count} records"
+
+  end
+  #test "saves multiple days when provided a delimited list of dates" do
+#
+#    today = Date.today.to_s
+#    yesterday = Date.today-1
+#    two_days_ago = Date.today-2
+#
+#    params = {
+#      :email_address => users(:batman).email_address,
+#      :workout_dates => "#{today}, #{yesterday}, #{two_days_ago}"
+#    }
+#
+#    post(:track, params)
+#
+#    assert users(:batman).workouts.count == 3
+#
+#  end
 end
