@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Racker Tracker ++</title>
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src=" http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-    <script src=" http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css">
-    <%= stylesheet_link_tag "application" %>
-  </head>
-  <body>
+<div id="exercise_wrapper">
   <div id="exercise" class="row">
     <h1>I <abbr title="20+ minutes of increased heartrate">exercised</abbr></h1>
     <div class="btn-group" data-toggle="buttons-radio">
@@ -54,32 +44,31 @@
       Grand prize: a $50 check card drawn randomly each month at the company lunch from the pool of submitted names. Participation neccessary. Void where null == true.
     </div>
   </div>
+</div>
 
-  <script>
-    $('#js_competition_details_link').click(function (e) {
-      $('#details').slideToggle();
-      e.preventDefault();
-    });
+<script>
+  $('#js_competition_details_link').click(function (e) {
+    $('#details').slideToggle();
+    e.preventDefault();
+  });
 
-    $('[title]').tooltip({delay:500});
+  $('[title]').tooltip({delay:500});
 
-    $('button.workout-date').click(function (e) {
-      e.preventDefault();
-    });
+  $('button.workout-date').click(function (e) {
+    e.preventDefault();
+  });
 
-    // make post object
-    $('#submitButton').click(function() {
-      var selected_dates = [];
+  // make post object
+  $('#submitButton').click(function() {
+    var selected_dates = [];
 
-      var workout_buttons = $('button.workout-date.active')
-      for(var x = 0; x < workout_buttons.length; x++) {
-        selected_dates.push($(workout_buttons[x]).data('date'));
-      }
+    var workout_buttons = $('button.workout-date.active')
+    for(var x = 0; x < workout_buttons.length; x++) {
+      selected_dates.push($(workout_buttons[x]).data('date'));
+    }
 
-      $('#workout_date').val(selected_dates.join());
+    $('#workout_date').val(selected_dates.join());
 
-      return true;
-    });
-  </script>
-  </body>
-</html>
+    return true;
+  });
+</script>
