@@ -18,7 +18,7 @@ class ReportController < ApplicationController
       })
     end
 
-    @report_data.sort! { |a, b| a['workouts'] > b['workouts'] }
+    @report_data.sort_by!{ |a| -a['workouts'] }
 
     @report_date = Date.current().at_beginning_of_month
   end
