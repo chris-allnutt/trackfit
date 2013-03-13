@@ -1,4 +1,27 @@
+<form method="get">
+  Custom Date Range:
+  <input type="text" id="start_date" name="start_date" 
+    <% if !@start_date.nil? %>
+      value="<%= @start_date %>"
+    <% end %>
+  >
+  to
+  <input type="text" id="end_date" name="end_date"
+    <% if !@end_date.nil? %>
+      value="<%= @end_date %>"
+    <% end %>
+  ><br/>
+  <button type="submit" class="btn">Get Custom Report</button>
+
+<% if !@start_date.nil? && !@end_date.nil? %>
+<h2>
+  Workouts tracked from <%= Date.parse(@start_date).strftime('%B %d, %Y') %>
+  to
+  <%= Date.parse(@end_date).strftime('%B %d, %Y') %>
+</h2>
+<% else %>
 <h1>Workouts tracked for <%= @report_date.to_formatted_s(:month_and_year)  %></h1>
+<% end %>
 <table class="table table-striped table-bordered">
   <tr>
     <th>Name</th>
@@ -11,3 +34,9 @@
   </tr>
   <% end %>
 </table>
+<script type="text/javascript">
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: "yy-mm-dd" });
+    $( "#end_date" ).datepicker({ dateFormat: "yy-mm-dd" });
+  });
+</script>
