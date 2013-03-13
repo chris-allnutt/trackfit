@@ -1,0 +1,33 @@
+<% if flash[:notice] %>
+<div class="alert alert-block">
+  <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+  <strong>Notice:</strong> <%= flash[:notice] %>
+</div>
+<% end %>
+
+<h3>Date Range:</h3>
+<form method="post">
+  <label for="start_date">From:</label> 
+  <input type="text" id="start_date" name="start_date" 
+    <% if !@start_date.nil? %>
+      value="<%= @start_date %>"
+    <% end %>
+  >
+  <label for="end_date">To:</label>
+  <input type="text" id="end_date" name="end_date"
+    <% if !@end_date.nil? %>
+      value="<%= @end_date %>"
+    <% end %>
+  >
+  <br/><button type="submit" class="btn">Find a Winner</button>
+</form>
+<% if @winner %>
+  <h1><strong>Winner is</strong> <%=@winner %></h1>
+<% end %>
+
+<script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: "yy-mm-dd" });
+    $( "#end_date" ).datepicker({ dateFormat: "yy-mm-dd" });
+  });
+ </script>

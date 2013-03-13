@@ -22,4 +22,29 @@ class ReportController < ApplicationController
 
     @report_date = Date.current().at_beginning_of_month
   end
+
+  def winner
+    @winner     = nil
+    @start_date = nil
+    @end_date   = nil
+
+    if params[:start_date].blank? || params[:end_date].blank?
+      flash[:notice] = "Please select a date range to determine a winner"
+    else
+      workout = Workout.where(
+        'worked_out_on >= :start_date AND worked_out_on <= :end_date', 
+        {:start_date => params[:start_date],
+         :end_date   => params[:end_date]}
+      ).order("RANDOM()").first
+
+      if workout 
+        @winner = User.find(workout.user_id).email_address.split('@').first
+      else
+        flash[:notice] = "No workouts were logged for this date range"
+      end
+      @start_date = params[:start_date]
+      @end_date   = params[:end_date]
+    end
+
+  end
 end
